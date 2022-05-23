@@ -43,7 +43,7 @@ public class UserAgent implements Agent {
 			sender = (String) tmsg.getObjectProperty("sender");
 			message = (String) tmsg.getObjectProperty("message");
 			if (receiver.equals(agentId)) {
-				System.out.println("Received from :" + sender);
+				System.out.println("Received from ur mom :" + sender);
 				System.out.println("Message : " + message);
 			}
 		} catch (JMSException e) {
