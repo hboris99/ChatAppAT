@@ -23,14 +23,33 @@ public class AgentManagerBean implements AgentManagerRemote {
     }
 
 	@Override
-	public String startAgent(String name) {
+	public String startAgent(String name, String id) {
 		Agent agent = (Agent) JNDILookup.lookUp(name, Agent.class);
-		return agent.init();
+		return agent.init(id);
 	}
 
 	@Override
 	public Agent getAgentById(String agentId) {
 		return cachedAgents.getRunningAgents().get(agentId);
+	}
+
+	@Override
+	public Agent getByIdOrStartNew(String name, String id) {
+			if(getAgentById(id) == null) {
+				Agent agent = (Agent) JNDILookup.lookUp(name, Agent.class);
+				agent.init(id);
+				return agent;
+			}
+			else {
+				return getAgentById(id);
+			}
+	}
+
+	@Override
+	public void stop(String name) {
+		// TODO Auto-generated method stub
+		cachedAgents.stop(name);
+		
 	}
 
 

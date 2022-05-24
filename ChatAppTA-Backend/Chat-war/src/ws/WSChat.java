@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -12,41 +14,119 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import agentmanager.AgentManagerBean;
+import agentmanager.AgentManagerRemote;
+import chatmanager.ChatManagerRemote;
+import models.UserMessage;
+import sun.management.resources.agent;
+import util.JNDILookup;
+
 @Singleton
+@LocalBean
 @ServerEndpoint("/ws/{username}")
 public class WSChat {
 	private Map<String, Session> sessions = new HashMap<String, Session>();
+	private AgentManagerRemote agentmanager = JNDILookup.lookUp(JNDILookup.AgentManagerLookup, AgentManagerBean.class);
+	
+	@EJB
+	private ChatManagerRemote chatManager;
 	
 	@OnOpen
 	public void onOpen(@PathParam("username") String username, Session session) {
 		sessions.put(username, session);
+		agentmanager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, username);
+		
 	}
 	
 	@OnClose
 	public void onClose(@PathParam("username") String username, Session session) {
 		sessions.remove(username);
+		agentmanager.stop(username);
+		
 	}
 	
 	@OnError
 	public void onError(@PathParam("username") String username, Session session, Throwable t) {
 		sessions.remove(username);
+		agentmanager.stop(username);
+		chatManager.logOut(username);
+		
 		t.printStackTrace();
 	}
 	
-	public void onMessage(String username, String message) {
+	public void closeSessionWhenLoggedOut(String username) {
+		sessions.remove(username);
+		this.notifyLogOut(username);
+	}
+	
+	
+	
+	public void sendMessage(String username, UserMessage message) {
 		Session session = sessions.get(username);
-		sendMessage(session, message);
+
+		if(session.isOpen() && session != null) {
+			try {
+				session.getBasicRemote().sendText(message.toJson());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
-	public void onMessage(String message) {
-		sessions.values().forEach(session -> sendMessage(session, message));
+	public void notifyNewRegistration(String username) {
+		for(Session session :sessions.values()) {
+			if(session != null && session.isOpen()) {
+				try {
+					session.getBasicRemote().sendText("REGISTRATION%" + username);
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
-	public void sendMessage(Session session, String message) {
-		if(session.isOpen()) {
+	public void notifyNewLogin(String username) {
+		for(Session session :sessions.values()) {
+			if(session != null && session.isOpen()) {
+				try {
+					session.getBasicRemote().sendText("LOGIN%" + username);
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void notifyLogOut(String username) {
+		for(Session session :sessions.values()) {
+			if(session != null && session.isOpen()) {
+				try {
+					session.getBasicRemote().sendText("LOGOUT%" + username);
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void sendMessageToAllActiveUsers(UserMessage userMessage) {
+		for(Session session : sessions.values()) {
+			if(session != null && session.isOpen()) {
+				try {
+					session.getBasicRemote().sendText(userMessage.toJson());
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void sendMessage(String recipient, String message) {
+		Session session = sessions.get(recipient);
+		if(session != null && session.isOpen()) {
 			try {
 				session.getBasicRemote().sendText(message);
-			} catch (IOException e) {
+			}catch(IOException e) {
 				e.printStackTrace();
 			}
 		}

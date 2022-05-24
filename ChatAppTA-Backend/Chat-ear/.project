@@ -4,7 +4,6 @@
 	<comment></comment>
 	<projects>
 		<project>Chat-jar</project>
-		<project>Chat-jarClient</project>
 		<project>Chat-war</project>
 	</projects>
 	<buildSpec>

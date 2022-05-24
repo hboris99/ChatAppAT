@@ -5,9 +5,6 @@
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="Chat-jarClient.jar" deploy-path="/" handle="module:/resource/Chat-jarClient/Chat-jarClient">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="Chat-war.war" deploy-path="/" handle="module:/resource/Chat-war/Chat-war">
             <dependent-object/>
             <dependency-type>uses</dependency-type>

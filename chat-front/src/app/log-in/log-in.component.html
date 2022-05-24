@@ -1,1 +1,28 @@
-<p>log-in works!aaaaa</p>
+<div class="container-fluid h-100" >
+  <div class="row justify-content-center align-items-center">
+    <div class="col-md-4 align-self-center" style="padding-top:200px;">
+        <h1 class="display-1" style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+            Log In
+        </h1>
+        <form (ngSubmit) = "submit()" #logInForm="ngForm">
+          <div class="form-group mb-3">
+            <label for="username" class="form-label">Username: </label>
+            <input type="text" class="form-control" id="username" required placeholder="Your username" [(ngModel)] = "user.username" name = "username" #username = "ngModel">
+          </div>
+          <div class="form-group mb-3">
+            <label for="password" class="form-label">Password: </label>
+            <input type="password" class="form-control" id="password" required placeholder="enter your password.." [(ngModel)] = "user.password" name = "password" #password = "ngModel">
+          </div>
+
+          <div class="form-group mb-3">
+            <label> <a href="register">Dont have an account?</a></label>
+
+          </div>
+        <div class="d-grid col-6 mx-auto">
+            <button class="btn btn-info" type="submit">Log In!</button>
+        </div>
+
+        </form>
+    </div>
+  </div>
+</div>

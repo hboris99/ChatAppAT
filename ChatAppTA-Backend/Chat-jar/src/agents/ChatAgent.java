@@ -14,6 +14,7 @@ import chatmanager.ChatManagerRemote;
 import messagemanager.AgentMessage;
 import messagemanager.MessageManagerRemote;
 import models.User;
+import models.UserMessage;
 import util.JNDILookup;
 import ws.WSChat;
 
@@ -54,32 +55,35 @@ public class ChatAgent implements Agent {
 			receiver = (String) tmsg.getObjectProperty("receiver");
 			if (agentId.equals(receiver)) {
 				String option = "";
-				String response = "";
+				String username = "";
+				UserMessage userMessage = new UserMessage();
 				try {
 					option = (String) tmsg.getObjectProperty("command");
 					switch (option) {
 					case "REGISTER":
-						String username = (String) tmsg.getObjectProperty("username");
-						String password = (String) tmsg.getObjectProperty("password");
-	
-						boolean result = chatManager.register(new User(username, password));
-
-						response = "REGISTER!Registered: " + (result ? "Yes!" : "No!");
-						break;
-					case "LOG_IN":
+						
 						username = (String) tmsg.getObjectProperty("username");
-						password = (String) tmsg.getObjectProperty("password");
-						result = chatManager.login(username, password);
-
-						response = "LOG_IN!Logged in: " + (result ? "Yes!" : "No!");
+						ws.notifyNewRegistration(username);
+						break;
+					case "LOGIN":
+						username = (String) tmsg.getObjectProperty("username");
+						
 						break;
 					case "GET_LOGGEDIN":
-						response = "LOGGEDIN!";
-						List<User> users = chatManager.loggedInUsers();
-						for (User u : users) {
-							response += u.toString() + "|";
+						List<String> activeUsernames = chatManager.getActiveUsernames();
+						List<User> activeRemoteUsers = chatManager.loggedInRemote();
+						for(String user: activeUsernames) {
+							ws.sendMessage(receiver, "LOGIN%" + user);
+						}for(User u : activeRemoteUsers) {
+							ws.sendMessage(receiver, "LOGIN%" + u.getUsername());
 						}
-
+						
+						break;
+					case "GET_REGISTERED":
+						List<String> registeredUsers = chatManager.getRegisteredUsernames();
+						for(String registered : registeredUsers) {
+							ws.sendMessage(receiver,"REGISTRATION%" + registered);	
+						}
 						break;
 					case "x":
 						break;
@@ -100,8 +104,8 @@ public class ChatAgent implements Agent {
 	}
 
 	@Override
-	public String init() {
-		agentId = "chat";
+	public String init(String id) {
+		agentId = id;
 		cachedAgents.addRunningAgent(agentId, this);
 		return agentId;
 	}

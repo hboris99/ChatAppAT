@@ -1,1 +1,28 @@
-<p>register works! Or does it</p>
+<div class="container-fluid h-100" >
+  <div class="row justify-content-center align-items-center">
+    <div class="col-md-4 align-self-center" style="margin-top:200px; background-color: darkslategray; padding-bottom: 20px;">
+        <h1 class="display-1" style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; color: lightskyblue;">
+            Register !
+        </h1>
+        <form (ngSubmit) = "submit()" #registerForm="ngForm">
+          <div class="form-group mb-3">
+            <label for="username" class="form-label" style="color:lightskyblue ;">Username: </label>
+            <input type="text" class="form-control" id="username" required placeholder="Your username" [(ngModel)] = "user.username" name = "username" #username = "ngModel">
+          </div>
+          <div class="form-group mb-3">
+            <label for="password" class="form-label">Password: </label>
+            <input type="password" class="form-control" id="password" required placeholder="enter your password.." [(ngModel)] = "user.password" name = "password" #password = "ngModel">
+          </div>
+
+          <div class="form-group mb-3">
+            <label> <a href="login">Already have an account?</a></label>
+
+          </div>
+        <div class="d-grid col-6 mx-auto">
+            <button class="btn btn-light" type="submit">Register!</button>
+        </div>
+
+        </form>
+    </div>
+  </div>
+</div>
