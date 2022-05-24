@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import chatmanager.ChatManagerRemote;
 import models.Host;
 import models.UserMessage;
+import ws.WSChat;
 
 public class ConnectionManagerBean implements ConnectionManager{
 	
