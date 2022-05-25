@@ -1,16 +1,25 @@
 package ConnectionManager;
 
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.Remote;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.management.MBeanServer;
+import javax.ws.rs.Path;
 
 import chatmanager.ChatManagerRemote;
 import models.Host;
 import models.UserMessage;
 import ws.WSChat;
-
+@Singleton
+@Startup
+@Remote(ConnectionManager.class)
+@Path("/connection")
 public class ConnectionManagerBean implements ConnectionManager{
 	
 	private Host localNode;
@@ -42,8 +51,9 @@ public class ConnectionManagerBean implements ConnectionManager{
 
 	@Override
 	public List<String> registerNewnode(String nodeAlias) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+		}
 	}
 
 	@Override

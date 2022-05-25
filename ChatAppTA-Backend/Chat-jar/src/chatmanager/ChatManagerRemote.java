@@ -10,7 +10,7 @@ import models.UserMessage;
 @Remote
 public interface ChatManagerRemote {
 
-	public boolean login(String username, String password);
+	public String login(String username, String password);
 	
 	public void addRemoteLoggedIn(User user);
 	

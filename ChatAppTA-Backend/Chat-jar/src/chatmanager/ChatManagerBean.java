@@ -50,16 +50,18 @@ public class ChatManagerBean implements ChatManagerRemote {
 	}
 
 	@Override
-	public boolean login(String username, String password) {
+	public String login(String username, String password) {
 		boolean exists = registered.stream().anyMatch(u->u.getUsername().equals(username) && u.getPassword().equals(password));
 		if(exists) {
 			if(!activeUser(username)) {
 			loggedIn.add(getRegisteredByUsername(username));
 			ws.notifyNewLogin(username);
 			sendLogInToNetwork(username);
+			return "bravo";
 			}
+			return "fail";
 		}
-		return exists;
+		return "invalid";
 	}
 	
 	
