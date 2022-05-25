@@ -10,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
+import models.User;
 import models.UserMessage;
 
 public interface ConnectionManager {
@@ -49,7 +50,7 @@ public interface ConnectionManager {
 	@Path("/users/loggedIn")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void addRemoteLogin(String username);
+	public void addRemoteLogin(User user);
 	
 	
 	@DELETE

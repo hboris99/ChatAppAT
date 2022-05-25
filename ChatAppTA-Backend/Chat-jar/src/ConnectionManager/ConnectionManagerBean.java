@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Singleton;
@@ -30,6 +31,7 @@ import java.io.InputStream;
 
 import chatmanager.ChatManagerRemote;
 import models.Host;
+import models.User;
 import models.UserMessage;
 import ws.WSChat;
 @Singleton
@@ -78,6 +80,23 @@ public class ConnectionManagerBean implements ConnectionManager{
 	}
 	
 
+	@PreDestroy
+	public void nodeShutDown(String alias) {
+		tellAllNodesShutDown(alias);
+	}
+	
+	private void tellAllNodesShutDown(String alias) {
+
+		for(String node : cluster) {
+			ResteasyClient resteasyClient = new ResteasyClientBuilder().build();
+			ResteasyWebTarget target = resteasyClient.target(HTTP + node + "/Chat-war/api/connection");
+			ConnectionManager manager = target.proxy(ConnectionManager.class);
+			manager.deleteNode(alias);
+			resteasyClient.close();
+		}
+	}
+
+
 	private String getMasterAlias() {
 		try {
 			InputStream inputStream = ConnectionManagerBean.class.getClassLoader().getResourceAsStream("../properties/connection.properties");
@@ -124,6 +143,27 @@ public class ConnectionManagerBean implements ConnectionManager{
 			}
 		}
 		
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				ResteasyClient resteasyClient = new ResteasyClientBuilder().build();
+				ResteasyWebTarget target = resteasyClient.target(HTTP + nodeAlias + "/Chat-war/api/connection");
+				ConnectionManager manager = target.proxy(ConnectionManager.class);
+				
+				for(String username : chatManager.getActiveUsernames()) {
+					User activeUser = new User(username, localNode.alias);
+					manager.addRemoteLogin(activeUser);
+				}
+				for(User user : chatManager.loggedInRemote()) {
+					
+					manager.addRemoteLogin(user);
+				}
+				resteasyClient.close();
+			}
+			
+		}).start();
+		
 		return getNodes();
 		
 	}
@@ -155,39 +195,67 @@ public class ConnectionManagerBean implements ConnectionManager{
 	}
 
 	@Override
-	public void addRemoteLogin(String username) {
-		// TODO Auto-generated method stub
+	public void addRemoteLogin(User user) {
+		chatManager.addRemoteLoggedIn(user);
 		
 	}
 
 	@Override
-	public void removeRemoteLogin(String node) {
-		// TODO Auto-generated method stub
+	public void removeRemoteLogin(String user) {
+		
+		chatManager.removeRemoteActive(user);
 		
 	}
 
 	@Override
 	public void addRemoteMessage(UserMessage msg) {
-		// TODO Auto-generated method stub
+		
+		chatManager.saveRemoteMessage(msg);
 		
 	}
 
 	@Override
 	public void notifyAllNewMessage(UserMessage msg) {
-		// TODO Auto-generated method stub
+		for(String node :cluster) {
+			if(!node.equals(localNode.alias)) {
+			ResteasyClient resteasyClient = new ResteasyClientBuilder().build();
+			ResteasyWebTarget target = resteasyClient.target(HTTP + node + "/Chat-war/api/connection");
+			ConnectionManager manager = target.proxy(ConnectionManager.class);
+			manager.addRemoteMessage(msg);
+			resteasyClient.close();
+			}
+		}
+		
 		
 	}
 
 	@Override
 	public void notifyAllNewLogin(String user) {
-		// TODO Auto-generated method stub
+
+		User loggedInUser = new User(user, localNode.alias);
+		for(String node :cluster) {
+			if(!node.equals(localNode.alias)) {
+			ResteasyClient resteasyClient = new ResteasyClientBuilder().build();
+			ResteasyWebTarget target = resteasyClient.target(HTTP + node + "/Chat-war/api/connection");
+			ConnectionManager manager = target.proxy(ConnectionManager.class);
+			manager.addRemoteLogin(loggedInUser);
+			resteasyClient.close();
+			}
+		}
 		
 	}
 
 	@Override
 	public void notifyAllLogout(String user) {
-		// TODO Auto-generated method stub
-		
+		for(String node :cluster) {
+			if(!node.equals(localNode.alias)) {
+			ResteasyClient resteasyClient = new ResteasyClientBuilder().build();
+			ResteasyWebTarget target = resteasyClient.target(HTTP + node + "/Chat-war/api/connection");
+			ConnectionManager manager = target.proxy(ConnectionManager.class);
+			manager.removeRemoteLogin(user);
+			resteasyClient.close();
+			}
+		}		
 	}
 
 }
