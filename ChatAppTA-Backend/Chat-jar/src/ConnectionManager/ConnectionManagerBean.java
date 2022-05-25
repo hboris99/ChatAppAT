@@ -73,6 +73,7 @@ public class ConnectionManagerBean implements ConnectionManager{
 			cluster.removeIf(n -> n.equals(localNode.alias));
 			resteasyClient.close();
 			
+			
 		}
 	}
 	
