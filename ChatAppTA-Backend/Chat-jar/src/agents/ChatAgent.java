@@ -79,20 +79,52 @@ public class ChatAgent implements Agent {
 						}
 						
 						break;
+					case "NEW_MESSAGE":
+						userMessage = new UserMessage();
+						userMessage.setSender((String) tmsg.getObjectProperty("sender"));
+						userMessage.setSubject((String) tmsg.getObjectProperty("subject"));
+						userMessage.setContent((String) tmsg.getObjectProperty("content"));
+						userMessage.setRecipient((String) tmsg.getObjectProperty("target"));
+						
+						chatManager.saveMessage(userMessage);
+						
+						ws.sendMessage(userMessage.recipient, userMessage);
+						break;
+					case "GROUP_MESSAGE":
+						userMessage = new UserMessage();
+						userMessage.setSender((String) tmsg.getObjectProperty("sender"));
+						userMessage.setSubject((String) tmsg.getObjectProperty("subject"));
+						
+						for(String recipient : chatManager.getActiveUsernames()) {
+							userMessage.setRecipient(recipient);
+							chatManager.saveMessage(userMessage);
+							
+						}
+						for(User u : chatManager.loggedInRemote()) {
+							userMessage.setRecipient(u.getUsername());
+							chatManager.saveMessage(userMessage);
+						}
+						ws.sendMessageToAllActiveUsers(userMessage);
+						break;
+						
+					case "GET_MESSAGES":
+						for(UserMessage msg : chatManager.getUserMessages(receiver)) {
+							ws.sendMessage(receiver, msg);
+						}
+						break;
+						
 					case "GET_REGISTERED":
 						List<String> registeredUsers = chatManager.getRegisteredUsernames();
 						for(String registered : registeredUsers) {
 							ws.sendMessage(receiver,"REGISTRATION%" + registered);	
 						}
 						break;
-					case "x":
-						break;
+				
 					default:
-						response = "ERROR!Option: " + option + " does not exist.";
+						System.out.println("Error selected case does not exist: " + option + ".");
 						break;
 					}
-					System.out.println(response);
-					ws.onMessage("chat", response);
+					
 					
 				} catch (JMSException e) {
 					e.printStackTrace();
