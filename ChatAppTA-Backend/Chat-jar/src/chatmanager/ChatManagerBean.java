@@ -68,9 +68,12 @@ public class ChatManagerBean implements ChatManagerRemote {
 	
 
 	private boolean activeUser(String username) {
+		System.out.println("Loogin for an active user by the name: " + username);
 		for(String activeUser: getActiveUsernames()) {
-			if(activeUser.equals(username))
+			if(activeUser.equals(username)) {
+				System.out.println("Found the logged in user: " + activeUser);
 				return true;
+			}
 		}
 		
 		for(User activeUser : loggedInRemote()) {
@@ -82,9 +85,11 @@ public class ChatManagerBean implements ChatManagerRemote {
 
 	@Override
 	public boolean logOut(String username) {
+		System.out.println("Went into log out");
 		if (activeUser(username)) {
+			System.out.println("Found the active user requestion logout: " + username);
 			loggedIn.removeIf(u -> u.username.equals(username));
-			sendLogOutToNetwork(username);
+			//sendLogOutToNetwork(username);
 			return true;
 		} else {
 			return false;
@@ -125,6 +130,7 @@ public class ChatManagerBean implements ChatManagerRemote {
 		
 		List<String> activeUsernames = new ArrayList<>();
 		for(User user : loggedIn) {
+			System.out.println("User is logged in: " + user.getUsername());
 			activeUsernames.add(user.getUsername());
 		}
 		return activeUsernames;

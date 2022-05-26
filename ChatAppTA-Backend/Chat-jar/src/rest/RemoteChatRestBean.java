@@ -35,7 +35,7 @@ public class RemoteChatRestBean implements RemoteChatRest {
 
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, username);
 		AgentMessage message = new AgentMessage();
-		message.userArgs.put("reciever", username);
+		message.userArgs.put("receiver", username);
 		message.userArgs.put("command", "GET_LOGGEDIN" );
 		
 		messageManager.post(message);
@@ -46,7 +46,7 @@ public class RemoteChatRestBean implements RemoteChatRest {
 	public void getRegisteredUsers(String username) {
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, username);
 		AgentMessage message = new AgentMessage();
-		message.userArgs.put("reciever", username);
+		message.userArgs.put("receiver", username);
 		message.userArgs.put("command", "GET_REGISTERED" );
 		
 		messageManager.post(message);
@@ -57,7 +57,7 @@ public class RemoteChatRestBean implements RemoteChatRest {
 	public void getMessages(String username) {
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, username);
 		AgentMessage message = new AgentMessage();
-		message.userArgs.put("reciever", username);
+		message.userArgs.put("receiver", username);
 		message.userArgs.put("command", "GET_MESSAGES");
 		
 		messageManager.post(message);
@@ -70,7 +70,7 @@ public class RemoteChatRestBean implements RemoteChatRest {
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, userMessage.sender);
 		
 		AgentMessage message = new AgentMessage();
-		message.userArgs.put("reciever", userMessage.sender);
+		message.userArgs.put("receiver", userMessage.sender);
 		message.userArgs.put("command", "NEW_MESSAGE");
 		message.userArgs.put("target", userMessage.recipient);
 		message.userArgs.put("sender", userMessage.sender);
@@ -88,18 +88,18 @@ public class RemoteChatRestBean implements RemoteChatRest {
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, "MASTER");
 		System.out.println("Found Master agent for deletion of other agents: " + agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, "MASTER").getAgentId());
 		AgentMessage message = new AgentMessage();
-		message.userArgs.put("reciever", "MASTER");
+		message.userArgs.put("receiver", "MASTER");
 		message.userArgs.put("command", "LOGOUT" );
 		message.userArgs.put("username", username);
-		
+		System.out.println("Does not find this username: " + username);
 		boolean res = chatManager.logOut(username);
-		
+		System.out.println(res);
 		if(res) {
 			System.out.println("Odlogovan: " + username);
 			messageManager.post(message);		
 
 		}
-		
+		System.out.println("Logged out");
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class RemoteChatRestBean implements RemoteChatRest {
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, userMessage.sender);
 		AgentMessage message = new AgentMessage();	
 		message.userArgs.put("command", "GROUP_MESSAGE");
-		message.userArgs.put("reciever", userMessage.sender);
+		message.userArgs.put("receiver", userMessage.sender);
 		message.userArgs.put("sender", userMessage.sender);
 		message.userArgs.put("subject", userMessage.subject);
 		message.userArgs.put("content", userMessage.content);

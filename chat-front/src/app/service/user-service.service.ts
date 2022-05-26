@@ -49,6 +49,7 @@ export class UserServiceService {
   signOut(){
     let urlToSend = url + "users/loggedIn/" + this.getActiveUser()!;
     console.log(typeof(this.getActiveUser()))
+    console.log(urlToSend)
      return this.http.delete(urlToSend).subscribe((data) => {
        sessionStorage.clear();
        window.location.href = '/login'

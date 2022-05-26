@@ -121,7 +121,7 @@ public class ChatAgent implements Agent {
 						break;
 					case "LOGOUT":
 						username = (String) tmsg.getObjectProperty("username");
-						ws.closeSessionWhenLoggedOut(username);;
+						ws.closeSessionWhenLoggedOut(username);
 				
 					default:
 						System.out.println("Error selected case does not exist: " + option + ".");
