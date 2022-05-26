@@ -84,16 +84,12 @@ public class RemoteChatRestBean implements RemoteChatRest {
 
 	@Override
 	public void logOut(String username) {
-		System.out.println("Sent log out request for user: " + username);
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, "MASTER");
-		System.out.println("Found Master agent for deletion of other agents: " + agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, "MASTER").getAgentId());
 		AgentMessage message = new AgentMessage();
 		message.userArgs.put("receiver", "MASTER");
 		message.userArgs.put("command", "LOGOUT" );
 		message.userArgs.put("username", username);
-		System.out.println("Does not find this username: " + username);
 		boolean res = chatManager.logOut(username);
-		System.out.println(res);
 		if(res) {
 			System.out.println("Odlogovan: " + username);
 			messageManager.post(message);		

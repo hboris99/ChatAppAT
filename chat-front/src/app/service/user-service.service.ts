@@ -58,12 +58,12 @@ export class UserServiceService {
 
   getAllLoggedInUsers(){
     const newUrl = url + 'users/loggedIn/' + this.getActiveUser()!;
-    return this.http.get(url);
+    return this.http.get(newUrl);
   }
 
   getAllRegisteredUsers(){
-    const newUrl = url + 'users/registered/' + this.getActiveUser!;
-    return this.http.get(url);
+    const newUrl = url + 'users/registered/' + this.getActiveUser()!;
+    return this.http.get(newUrl);
   }
 
 

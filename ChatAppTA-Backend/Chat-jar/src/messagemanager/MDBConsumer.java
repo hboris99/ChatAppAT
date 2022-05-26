@@ -35,10 +35,7 @@ public class MDBConsumer implements MessageListener {
 		String receiver;
 		try {
 			receiver = (String) message.getObjectProperty("receiver");
-			System.out.println("Reciever of message: " + receiver);
 			Agent agent = (Agent) cachedAgents.getRunningAgents().get(receiver);
-			System.out.println("Agent id: " + agent.getAgentId());
-			System.out.println(message.toString());
 			agent.handleMessage(message);
 		} catch (JMSException e) {
 			e.printStackTrace();

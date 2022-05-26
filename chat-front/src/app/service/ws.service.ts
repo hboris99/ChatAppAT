@@ -12,7 +12,7 @@ export class WsService {
 
   private subject: Subject<MessageEvent> | undefined;
 
-  private connect(url: string): Subject<MessageEvent>{
+  public connect(url: string): Subject<MessageEvent>{
     if(!this.subject){
       this.subject = this.create(url);
       setTimeout(() => {

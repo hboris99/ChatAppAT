@@ -1,7 +1,7 @@
 <app-option-panel></app-option-panel>
 <div class="page-container pt-5 px-5">
   <div class="container">
-    <h1>Active users:</h1>
+    <h1>Registered users:</h1>
     <mat-spinner *ngif="loading"></mat-spinner>
     <mat-chip-list>
       <mat-chip color="primary" selected *ngFor="let user of users">{{

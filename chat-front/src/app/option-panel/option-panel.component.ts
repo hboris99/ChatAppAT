@@ -17,6 +17,7 @@ export class OptionPanelComponent implements OnInit {
   }
 
   changePage(){
+    console.log(this.currentUrl)
     this.router.navigate([this.currentUrl]);
   }
   logout(){

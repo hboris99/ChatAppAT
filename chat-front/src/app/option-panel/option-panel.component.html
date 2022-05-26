@@ -6,10 +6,10 @@
         vertical="true"
         [(ngModel)] = "currentUrl"
         (change) = "changePage()">
-        <mat-button-toggle value="" [disabled]="currentUrl == ''">
+        <mat-button-toggle value="activeUsers" [disabled]="currentUrl == 'activeUsers'">
           Active users
         </mat-button-toggle>
-        <mat-button-toggle value="registeredUsers" [disabled]="currentUrl == 'registerdUsers'">
+        <mat-button-toggle value="registeredUsers" [disabled]="currentUrl == 'registeredUsers'">
           Registered users
         </mat-button-toggle>
         <mat-button-toggle value="messages" [disabled]="currentUrl == 'messages'">

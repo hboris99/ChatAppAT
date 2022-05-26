@@ -115,7 +115,10 @@ public class ChatAgent implements Agent {
 						
 					case "GET_REGISTERED":
 						List<String> registeredUsers = chatManager.getRegisteredUsernames();
+						System.out.println(receiver);
 						for(String registered : registeredUsers) {
+							
+							System.out.println("These are the registered users: " + registered);
 							ws.sendMessage(receiver,"REGISTRATION%" + registered);	
 						}
 						break;
