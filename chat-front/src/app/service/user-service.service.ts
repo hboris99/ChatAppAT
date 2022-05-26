@@ -72,8 +72,17 @@ export class UserServiceService {
     return this.http.post(newUrl, message);
   }
 
+  getUserMessages(){
 
+    const newUrl = url + 'messages/' + this.getActiveUser();
+    console.log(newUrl)
+    return this.http.get(newUrl);
+  }
+  sendMessageToEveryoneActive(message: Message){
+    const newUrl = url + 'messages/all';
+    return this.http.post(newUrl, message);
 
+  }
 
 }
 

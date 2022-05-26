@@ -55,7 +55,10 @@ public class RemoteChatRestBean implements RemoteChatRest {
 
 	@Override
 	public void getMessages(String username) {
+		System.out.println("Looking for: " + username + " messages.");
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, username);
+		System.out.println("Found " + username + " agent with the id: " + 	
+		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, username).getAgentId());
 		AgentMessage message = new AgentMessage();
 		message.userArgs.put("receiver", username);
 		message.userArgs.put("command", "GET_MESSAGES");

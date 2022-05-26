@@ -24,6 +24,7 @@ export class UserWebSocketService{
           if(responseString.startsWith('LOGIN') || responseString.startsWith('REGISTRATION') || responseString.startsWith('LOGOUT')){
             return;
           }else{
+            console.log(response.data);
             let data = JSON.parse(response.data);
             return data;
           }

@@ -1,5 +1,7 @@
 package chatmanager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +37,46 @@ public class ChatManagerBean implements ChatManagerRemote {
 	
 	/**
 	 * Default constructor.
+	 * @throws ParseException 
 	 */
-	public ChatManagerBean() {
+	public ChatManagerBean() throws ParseException {
+		
+		User u1 = new User("boris", "boris");
+		User u2 = new User("zoki", "zoki");
+		User u3 = new User("majmun", "majmun");
+		registered.add(u1);
+		registered.add(u2);
+		registered.add(u3);
+		
+		UserMessage um1 = new UserMessage();
+		um1.setSender("boris");
+		um1.setRecipient("zoki");
+		um1.setContent("neki kontent");
+		um1.setSubject("neki subject");
+		um1.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("24/05/2022"));
+		
+		UserMessage um2 = new UserMessage();
+		um2.setSender("boris");
+		um2.setRecipient("majmun");
+		um2.setContent("neki kontent");
+		um2.setSubject("neki subject");
+		um2.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("24/05/2022"));
+		UserMessage um3 = new UserMessage();
+		um3.setSender("zoki");
+		um3.setRecipient("boris");
+		um3.setContent("neki kontent");
+		um3.setSubject("neki subject");
+		um3.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("24/05/2022"));
+		UserMessage um4 = new UserMessage();
+		um4.setSender("majmun");
+		um4.setRecipient("boris");
+		um4.setContent("neki kontent");
+		um4.setSubject("neki subject");
+		um4.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("24/05/2022"));
+		messages.add(um1);
+		messages.add(um2);
+		messages.add(um3);
+		messages.add(um4);
 	}
 
 	@Override
@@ -147,6 +187,7 @@ public class ChatManagerBean implements ChatManagerRemote {
 
 	@Override
 	public List<UserMessage> getUserMessages(String username) {
+		System.out.println("Getting all of the messages for: " + username);
 		List<UserMessage> userMessages = new ArrayList<>();
 		for(UserMessage message : messages) {
 			if(message.recipient.equals(username))

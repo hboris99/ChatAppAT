@@ -17,13 +17,13 @@ export class OnlineUsersComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('Started web socket')
-    this.userWebSocketService.activeUsers.subscribe((msg) => {
-      if(msg!=undefined){
-        if(msg.password == 'LOGIN' && !this.userExists(msg.username)){
-          this.users.push(msg);
+    this.userWebSocketService.activeUsers.subscribe((user) => {
+      if(user!=undefined){
+        if(user.password == 'LOGIN' && !this.userExists(user.username)){
+          this.users.push(user);
         }
-        else if(msg.password == 'LOGOUT'){
-          this.removeUser(msg.username)
+        else if(user.password == 'LOGOUT'){
+          this.removeUser(user.username)
         }
       }
   });

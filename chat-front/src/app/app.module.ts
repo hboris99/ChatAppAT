@@ -50,6 +50,7 @@ import { ChatInterfaceComponent } from './chat-interface/chat-interface.componen
 import { OptionPanelComponent } from './option-panel/option-panel.component';
 import { RegisteredUsersComponent } from './registered-users/registered-users.component';
 import { MessageComponent } from './message/message.component';
+import { GroupMessageComponent } from './group-message/group-message.component';
 
 
 
@@ -63,7 +64,8 @@ import { MessageComponent } from './message/message.component';
     ChatInterfaceComponent,
     OptionPanelComponent,
     RegisteredUsersComponent,
-    MessageComponent
+    MessageComponent,
+    GroupMessageComponent
   ],
   imports: [
     BrowserModule,

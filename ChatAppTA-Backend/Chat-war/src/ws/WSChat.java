@@ -63,7 +63,8 @@ public class WSChat {
 	
 	public void sendMessage(String username, UserMessage message) {
 		Session session = sessions.get(username);
-		
+		System.out.println("Web socket part looking for messages for: " + username);
+		System.out.println("Found messsage: " + message.subject);
 		if(session != null && session.isOpen()) {
 			try {
 				session.getBasicRemote().sendText(message.toJson());

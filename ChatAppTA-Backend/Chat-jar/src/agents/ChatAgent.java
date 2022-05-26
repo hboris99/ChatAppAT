@@ -49,7 +49,7 @@ public class ChatAgent implements Agent {
 	@Override
 	public void handleMessage(Message message) {
 		TextMessage tmsg = (TextMessage) message;
-
+		System.out.println("Ive recieved the message for all messages");
 		String receiver;
 		try {
 			receiver = (String) tmsg.getObjectProperty("receiver");
@@ -59,6 +59,7 @@ public class ChatAgent implements Agent {
 				UserMessage userMessage = new UserMessage();
 				try {
 					option = (String) tmsg.getObjectProperty("command");
+					System.out.println("The option is: " + option);
 					switch (option) {
 					case "REGISTER":
 						
@@ -113,7 +114,9 @@ public class ChatAgent implements Agent {
 						break;
 						
 					case "GET_MESSAGES":
+						System.out.println("Ive went into the getMessages case");
 						for(UserMessage msg : chatManager.getUserMessages(receiver)) {
+							System.out.println("This is the message content from chat agent: " + msg.getSubject());
 							ws.sendMessage(receiver, msg);
 						}
 						break;
