@@ -20,6 +20,7 @@ export class UserServiceService {
 
   register(user : User){
      let urlToSend = url + "users/register";
+     console.log(urlToSend)
      return this.http.post(urlToSend, user);
   }
 
@@ -33,6 +34,7 @@ export class UserServiceService {
   }
   getActiveUser(){
     if(this.userIsActive()){
+      console.log(sessionStorage.getItem('username'));
       return sessionStorage.getItem('username');
     }
     else{
@@ -46,7 +48,11 @@ export class UserServiceService {
   }
   signOut(){
     let urlToSend = url + "users/loggedIn/" + this.getActiveUser()!;
-     return this.http.delete(url);
+    console.log(typeof(this.getActiveUser()))
+     return this.http.delete(urlToSend).subscribe((data) => {
+       sessionStorage.clear();
+       window.location.href = '/login'
+     });
   }
 
   getAllLoggedInUsers(){

@@ -40,7 +40,6 @@ public interface RemoteChatRest {
 	
 	@DELETE
 	@Path("/users/loggedIn/{userId}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	public void logOut(@PathParam("userId") String username);	
 	
 	

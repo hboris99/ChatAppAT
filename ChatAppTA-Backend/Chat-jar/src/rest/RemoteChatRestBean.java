@@ -18,8 +18,7 @@ import models.UserMessage;
 import util.JNDILookup;
 @Stateless
 @LocalBean
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+
 @Path("/chat")
 public class RemoteChatRestBean implements RemoteChatRest {
 	
@@ -85,7 +84,9 @@ public class RemoteChatRestBean implements RemoteChatRest {
 
 	@Override
 	public void logOut(String username) {
+		System.out.println("Sent log out request for user: " + username);
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, "MASTER");
+		System.out.println("Found Master agent for deletion of other agents: " + agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, "MASTER").getAgentId());
 		AgentMessage message = new AgentMessage();
 		message.userArgs.put("reciever", "MASTER");
 		message.userArgs.put("command", "LOGOUT" );
