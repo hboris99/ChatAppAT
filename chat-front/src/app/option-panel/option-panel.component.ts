@@ -9,17 +9,13 @@ import { UserServiceService } from '../service/user-service.service';
 })
 export class OptionPanelComponent implements OnInit {
 
-  currentUrl : string = ''
-  constructor(private userService : UserServiceService, private router :Router) { }
+  constructor(private userService : UserServiceService) { }
 
   username  = this.userService.getActiveUser();
   ngOnInit(): void {
   }
 
-  changePage(){
-    console.log(this.currentUrl)
-    this.router.navigate([this.currentUrl]);
-  }
+
   logout(){
     this.userService.signOut();
   }

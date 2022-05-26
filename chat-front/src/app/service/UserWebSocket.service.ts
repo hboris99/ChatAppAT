@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { map, Subject } from "rxjs";
+import { Message } from "../model/Message";
 import { User } from "../model/User";
 import { UserServiceService } from "./user-service.service";
 import { WsService } from "./ws.service";
@@ -12,8 +13,25 @@ export class UserWebSocketService{
 
   public activeUsers: Subject<User>;
   public registeredUsers: Subject<User>;
+  public messages: Subject<Message>;
   constructor(private wsService : WsService, private userService: UserServiceService){
     this.websocket = this.websocket + userService.getActiveUser();
+
+    this.messages = <Subject<Message>>(
+      wsService.connect(this.websocket).pipe(
+        map((response : MessageEvent) => {
+          let responseString: string = response.data;
+          if(responseString.startsWith('LOGIN') || responseString.startsWith('REGISTRATION') || responseString.startsWith('LOGOUT')){
+            return;
+          }else{
+            let data = JSON.parse(response.data);
+            return data;
+          }
+        }
+      )
+    )
+    );
+
 
     this.activeUsers = <Subject<User>>(
       wsService.connect(this.websocket).pipe(

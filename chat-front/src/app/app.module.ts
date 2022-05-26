@@ -49,6 +49,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatInterfaceComponent } from './chat-interface/chat-interface.component';
 import { OptionPanelComponent } from './option-panel/option-panel.component';
 import { RegisteredUsersComponent } from './registered-users/registered-users.component';
+import { MessageComponent } from './message/message.component';
 
 
 
@@ -61,7 +62,8 @@ import { RegisteredUsersComponent } from './registered-users/registered-users.co
     NewmessageComponent,
     ChatInterfaceComponent,
     OptionPanelComponent,
-    RegisteredUsersComponent
+    RegisteredUsersComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,

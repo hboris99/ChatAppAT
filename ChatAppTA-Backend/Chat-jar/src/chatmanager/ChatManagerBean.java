@@ -89,7 +89,7 @@ public class ChatManagerBean implements ChatManagerRemote {
 		if (activeUser(username)) {
 			System.out.println("Found the active user requestion logout: " + username);
 			loggedIn.removeIf(u -> u.username.equals(username));
-			//sendLogOutToNetwork(username);
+			sendLogOutToNetwork(username);
 			return true;
 		} else {
 			return false;

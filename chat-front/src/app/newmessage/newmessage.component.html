@@ -1,1 +1,25 @@
-<p>newmessage works!</p>
+<app-option-panel></app-option-panel>
+<div class="page-container">
+<div class="container-fluid">
+  <form (ngSubmit) ="send()" [formGroup]="messageForm">
+    <div class="form-group mb-3">
+      <select   class="form-select"  formControlName="recipient" aria-label="Default select example">
+        <option selected>Select a recipient</option>
+        <option *ngFor="let user of users" >{{user.username}}</option>
+      </select>
+    </div>
+    <div class="form-group mb-3">
+      <label for="subject" class="form-label" style="margin-right: 26px;">Subject: </label>
+        <input matInput #subject placeholder="Subject" formControlName="subject"/>
+    </div>
+    <div class="form-group mb-3">
+      <label for="content" class="form-label" style="margin-right: 26px;">Content: </label>
+        <textarea matInput #content placeholder="Content" formControlName="content"></textarea>
+
+    </div>
+    <div  class="d-grid col-6 mx-auto">
+      <button  class="btn btn-info"  type="submit">Send</button>
+    </div>
+  </form>
+</div>
+</div>

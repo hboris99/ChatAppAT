@@ -1,33 +1,32 @@
-<div class="sidebar-container stretch-height">
-  <div class="p-5 has-text-centered title-backdrop">
-      <h1 class="display-1" style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; color: lightskyblue;">Sup {{username}}</h1>
-      <div>
-        <mat-button-toggle-group
-        vertical="true"
-        [(ngModel)] = "currentUrl"
-        (change) = "changePage()">
-        <mat-button-toggle value="activeUsers" [disabled]="currentUrl == 'activeUsers'">
-          Active users
-        </mat-button-toggle>
-        <mat-button-toggle value="registeredUsers" [disabled]="currentUrl == 'registeredUsers'">
-          Registered users
-        </mat-button-toggle>
-        <mat-button-toggle value="messages" [disabled]="currentUrl == 'messages'">
-          Your messages
-        </mat-button-toggle>
-        <mat-button-toggle value="newmessage" [disabled]="currentUrl == 'newmessage'">
-          New Message
-        </mat-button-toggle>
-        <mat-button-toggle value="newgroupmessage" [disabled]="currentUrl == 'newgroupmessage'">
-          Group Message
-        </mat-button-toggle>
 
-      </mat-button-toggle-group>
-      </div>
-      <div>
-        <button mat-icon-button (click) = "logout()">
-          <mat-icon></mat-icon>
-        </button>
-      </div>
-  </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a style="margin-left: 15px;" class="navbar-brand" href="chatui">Welcome {{username}} !</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="activeUsers">Active users</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="registeredUsers">Registered Users</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="newmessage">New message</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="newgroupmessage">Send a group message</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="messages">Messages</a>
+      </li>
+</ul>
+  <button class="btn btn-outline-success my-2 my-sm-0"  style="margin-left: 1050px;" type="submit" (click) = "logout()">Sign out</button>
 </div>
+
+</nav>
+
+
+

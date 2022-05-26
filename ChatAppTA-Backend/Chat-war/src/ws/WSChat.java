@@ -64,7 +64,7 @@ public class WSChat {
 	public void sendMessage(String username, UserMessage message) {
 		Session session = sessions.get(username);
 		
-		if(session.isOpen() && session != null) {
+		if(session != null && session.isOpen()) {
 			try {
 				session.getBasicRemote().sendText(message.toJson());
 			} catch (IOException e) {

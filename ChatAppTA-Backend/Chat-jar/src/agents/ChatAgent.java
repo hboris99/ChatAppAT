@@ -81,6 +81,11 @@ public class ChatAgent implements Agent {
 						break;
 					case "NEW_MESSAGE":
 						userMessage = new UserMessage();
+						System.out.println((String) tmsg.getObjectProperty("sender"));
+						System.out.println((String) tmsg.getObjectProperty("subject"));
+						System.out.println((String) tmsg.getObjectProperty("content"));
+						System.out.println((String) tmsg.getObjectProperty("target"));
+
 						userMessage.setSender((String) tmsg.getObjectProperty("sender"));
 						userMessage.setSubject((String) tmsg.getObjectProperty("subject"));
 						userMessage.setContent((String) tmsg.getObjectProperty("content"));

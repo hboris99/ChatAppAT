@@ -1,25 +1,33 @@
-<body>
-  <form [formGroup] = "loginForm" (ngSubmit) = "logIn()">
-    <div class="centered-content container columns">
-      <div>
-        <h1 class="is-light">Log in</h1>
-      </div>
-    </div>
-    <div class="p-5 m-5">
-      <div>
-        <mat-form-field appearance="outline">
-          <input matInput placeholder="Username" formControlName="username"/>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field appearance="outline">
-          <input matInput placeholder="enter your password.." formControlName="password"/>
-        </mat-form-field>
-      </div>
+<app-option-panel></app-option-panel>
+<div class="container-fluid h-100">
+  <div class="row justiy-content-center align-items-center" style="margin-left: 650px ;">
+    <div class="col-md-4 align-self-center" style="padding-top:100px;">
 
-      <div>
-        <button mat-flat-button color="primary" type="submit">Log in</button>
-      </div>
-    </div>
+    <h1 class="display-1" style="text-align: center; font-style: italic; margin-bottom: 60px;">
+      Log In
+  </h1>
+  <form [formGroup] = "loginForm" (ngSubmit) = "logIn()">
+
+        <div class="form-group mb-3">
+          <label for="username" class="form-label" style="margin-right: 26px;">Username: </label>
+            <input matInput #username placeholder="Username" formControlName="username"/>
+        </div>
+        <div class="form-group mb-3">
+          <label for="password" class="form-label" style="margin-right: 30px;">Passowrd: </label>
+            <input matInput placeholder="enter your password.." formControlName="password"/>
+          </div>
+
+
+          <div class="form-group mb-3">
+            <label> <a href="register">Dont have an account?</a></label>
+
+          </div>
+        <div class="d-grid col-6 mx-auto">
+            <button class="btn btn-info" type="submit">Log In!</button>
+        </div>
+
   </form>
-</body>
+</div>
+</div>
+</div>
+

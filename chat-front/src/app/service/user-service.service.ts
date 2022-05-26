@@ -66,6 +66,11 @@ export class UserServiceService {
     return this.http.get(newUrl);
   }
 
+  sendMessage(message : Message){
+    console.log(message)
+    const newUrl = url + 'messages/user';
+    return this.http.post(newUrl, message);
+  }
 
 
 

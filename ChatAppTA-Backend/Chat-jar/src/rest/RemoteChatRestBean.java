@@ -70,6 +70,9 @@ public class RemoteChatRestBean implements RemoteChatRest {
 		agentManager.getByIdOrStartNew(JNDILookup.ChatAgentLookup, userMessage.sender);
 		
 		AgentMessage message = new AgentMessage();
+		System.out.println(userMessage.recipient);
+		
+
 		message.userArgs.put("receiver", userMessage.sender);
 		message.userArgs.put("command", "NEW_MESSAGE");
 		message.userArgs.put("target", userMessage.recipient);
