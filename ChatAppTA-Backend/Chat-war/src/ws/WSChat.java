@@ -78,6 +78,7 @@ public class WSChat {
 			if(session != null && session.isOpen()) {
 				try {
 					session.getBasicRemote().sendText("REGISTRATION%" + username);
+					System.out.println("REGISTRATION");
 				}catch(IOException e) {
 					e.printStackTrace();
 				}
@@ -90,6 +91,8 @@ public class WSChat {
 			if(session != null && session.isOpen()) {
 				try {
 					session.getBasicRemote().sendText("LOGIN%" + username);
+					System.out.println("LOGIN");
+
 				}catch(IOException e) {
 					e.printStackTrace();
 				}

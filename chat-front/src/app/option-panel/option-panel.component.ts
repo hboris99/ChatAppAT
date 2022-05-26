@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserServiceService } from '../service/user-service.service';
 
 @Component({
   selector: 'app-option-panel',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OptionPanelComponent implements OnInit {
 
-  constructor() { }
+  currentUrl : string = ''
+  constructor(private userService : UserServiceService, private router :Router) { }
 
+  username  = this.userService.getActiveUser();
   ngOnInit(): void {
   }
 
+  changePage(){
+    this.router.navigate([this.currentUrl]);
+  }
 }

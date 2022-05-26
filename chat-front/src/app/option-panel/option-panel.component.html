@@ -1,5 +1,27 @@
 <div class="sidebar-container stretch-height">
   <div class="p-5 has-text-centered title-backdrop">
-      <h1 class="display-1" style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; color: lightskyblue;">Majmune</h1>
+      <h1 class="display-1" style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; color: lightskyblue;">Sup {{username}}</h1>
+      <div>
+        <mat-button-toggle-group
+        vertical="true"
+        [(ngModel)] = "currentUrl"
+        (change) = "changePage">
+        <mat-button-toggle value="" [disabled]="currentUrl == ''">
+          Active users
+        </mat-button-toggle>
+        <mat-button-toggle value="" [disabled]="currentUrl == ''">
+          Registered users
+        </mat-button-toggle>
+        <mat-button-toggle value="" [disabled]="currentUrl == ''">
+          Your messages
+        </mat-button-toggle>
+        <mat-button-toggle value="" [disabled]="currentUrl == ''">
+          New Message
+        </mat-button-toggle>
+        <mat-button-toggle value="" [disabled]="currentUrl == ''">
+          Group Message
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+      </div>
   </div>
 </div>

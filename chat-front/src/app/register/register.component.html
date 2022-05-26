@@ -1,28 +1,36 @@
-<div class="container-fluid h-100" >
-  <div class="row justify-content-center align-items-center">
-    <div class="col-md-4 align-self-center" style="margin-top:200px; background-color: darkslategray; padding-bottom: 20px;">
-        <h1 class="display-1" style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; color: lightskyblue;">
-            Register !
-        </h1>
-        <form (ngSubmit) = "submit()" #registerForm="ngForm">
-          <div class="form-group mb-3">
-            <label for="username" class="form-label" style="color:lightskyblue ;">Username: </label>
-            <input type="text" class="form-control" id="username" required placeholder="Your username" [(ngModel)] = "user.username" name = "username" #username = "ngModel">
-          </div>
-          <div class="form-group mb-3">
-            <label for="password" class="form-label">Password: </label>
-            <input type="password" class="form-control" id="password" required placeholder="enter your password.." [(ngModel)] = "user.password" name = "password" #password = "ngModel">
-          </div>
-
-          <div class="form-group mb-3">
-            <label> <a href="login">Already have an account?</a></label>
-
-          </div>
-        <div class="d-grid col-6 mx-auto">
-            <button class="btn btn-light" type="submit">Register!</button>
-        </div>
-
-        </form>
+<body>
+  <form [formGroup] = "registerForm" (ngSubmit) = "register()">
+    <div class="centered-content container columns">
+      <div
+      class="column gradient-background is-5 is-flex is-flex-direction-column is-justify-content-center has-text-centered"
+    >
+      <div>
+        <h1 class="is-light">Register</h1>
+      </div>
     </div>
-  </div>
-</div>
+    <div class="p-5 m-5">
+      <div>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Username" formControlName="username"/>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="enter your password.." formControlName="password"/>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button mat-flat-button color="primary" type="submit">Register</button>
+      </div>
+      <div>
+        <a href="/login">
+          <button mat-raised-button color="info" type="button">
+            Already have an account?
+          </button>
+        </a>
+      </div>
+      </div>
+    </div>
+  </form>
+</body>

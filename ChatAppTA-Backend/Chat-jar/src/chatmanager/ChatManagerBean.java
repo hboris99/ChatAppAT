@@ -21,8 +21,8 @@ import ws.WSChat;
 @LocalBean
 public class ChatManagerBean implements ChatManagerRemote {
 
-	private List<User> registered = new ArrayList<User>();
-	private List<User> loggedIn = new ArrayList<User>();
+	private List<User> registered = new ArrayList<>();
+	private List<User> loggedIn = new ArrayList<>();
 	
 	private List<User> loggedInRemote = new ArrayList<>();
 	private List<UserMessage> messages = new ArrayList<>();
@@ -42,6 +42,7 @@ public class ChatManagerBean implements ChatManagerRemote {
 	@Override
 	public boolean register(User user) {
 		boolean exists = registered.stream().anyMatch(u->u.getUsername().equals(user.getUsername()));
+		System.out.println(exists);
 		if(exists) {
 			return false;
 		}

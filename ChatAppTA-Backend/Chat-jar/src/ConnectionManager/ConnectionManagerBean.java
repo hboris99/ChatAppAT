@@ -65,7 +65,8 @@ public class ConnectionManagerBean implements ConnectionManager{
 		System.out.println("StARTED NODE: " + localNode.alias + " AT " + localNode.address);
 		
 		String masterAlias = getMasterAlias();
-		if(masterAlias != null && masterAlias != PORT) {
+		System.out.println(masterAlias + " this is the master alias");
+		if(masterAlias != null && !masterAlias.equals(PORT)) {
 			ResteasyClient resteasyClient = new ResteasyClientBuilder().build();
 			ResteasyWebTarget resteasyWebTarget = resteasyClient.target(HTTP + masterAlias + "/Chat-war/api/connection");
 			ConnectionManager manager = resteasyWebTarget.proxy(ConnectionManager.class);

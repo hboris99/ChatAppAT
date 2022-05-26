@@ -45,7 +45,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatInterfaceComponent } from './chat-interface/chat-interface.component';
 import { OptionPanelComponent } from './option-panel/option-panel.component';
 
@@ -103,6 +103,7 @@ import { OptionPanelComponent } from './option-panel/option-panel.component';
     MatTreeModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot()
   ],
   providers: [],
