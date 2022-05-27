@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.management.AttributeNotFoundException;
@@ -168,6 +169,9 @@ public class ConnectionManagerBean implements ConnectionManager{
 		return getNodes();
 		
 	}
+	
+	
+	
 
 	@Override
 	public void addNode(String nodeAlias) {
@@ -188,7 +192,52 @@ public class ConnectionManagerBean implements ConnectionManager{
 		cluster.removeIf(c -> c.equals(node));
 		chatManager.logOutFromNode(node);
 	}
+	
+	
+	private void notifyShutDown(String node) {
+		for(String node : cluster) {
+			ResteasyClient resteasyClient = new ResteasyClientBuilder().build();
+			ResteasyWebTarget target = resteasyClient.target(HTTP + node + "/Chat-war/api/connection");
+			ConnectionManager manager = target.proxy(ConnectionManager.class);
+			manager.deleteNode(node);
+			resteasyClient.close();
+		}
+	}
+	
+	@Schedule(hour="*", minute="*/1", persistent=false)
+	private void heartbeat() {
+		for(String node : cluster) {
+			new Thread(new Runnable() {
 
+				@Override
+				public void run() {
+					try {
+					ResteasyClient resteasyClient = new ResteasyClientBuilder().build();
+					ResteasyWebTarget target = resteasyClient.target(HTTP + node + "/Chat-war/api/connection");
+					ConnectionManager manager = target.proxy(ConnectionManager.class);
+					manager.ping();
+					resteasyClient.close();
+					}catch(Exception e) {
+						try {
+							ResteasyClient resteasyClient = new ResteasyClientBuilder().build();
+							ResteasyWebTarget target = resteasyClient.target(HTTP + node + "/Chat-war/api/connection");
+							ConnectionManager manager = target.proxy(ConnectionManager.class);
+							manager.ping();
+							System.out.println("Node " + node + " is alive.");
+							resteasyClient.close();
+						}catch(Exception e2) {
+							cluster.remove(node);
+							notifyShutDown(node);
+						}
+					}
+					
+				}
+				
+			});
+		}
+	}
+	
+	
 	@Override
 	public boolean ping() {
 		// TODO Auto-generated method stub
